@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class AI : MonoBehaviour
 {
     [SerializeField] private Transform _startingPos;
-   // [SerializeField] private Transform _endPos;
+    [SerializeField] private Transform _endPos;
     private NavMeshAgent _agent;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,6 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // _agent.SetDestination(_transformB.position);
+       // _agent.SetDestination(_endPos.position);
     }
 }
