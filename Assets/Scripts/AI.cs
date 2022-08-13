@@ -17,6 +17,6 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // _agent.SetDestination(_endPos.position);
+        _agent.SetDestination(_endPos.position);
     }
 }
