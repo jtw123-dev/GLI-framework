@@ -42,12 +42,17 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         private float _lookSensitivity = 5.0f; //mouse sensitivity 
 
         private Camera _fpsCamera;
+
+        private AI _ai;
+
+
         private void Start()
         {
             _controller = GetComponent<CharacterController>(); //assign the reference variable to the component
             _fpsCamera = GetComponentInChildren<Camera>();
             _initialCameraPos = _fpsCamera.transform.localPosition;
             Cursor.lockState = CursorLockMode.Locked;
+            _ai = GameObject.Find("Monster_93").GetComponent<AI>();
         }
 
         private void Update()
@@ -55,6 +60,11 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Cursor.lockState = CursorLockMode.None;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                _ai.Death();
             }
 
             FPSController();

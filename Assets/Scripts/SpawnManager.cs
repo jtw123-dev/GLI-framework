@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject _spawnObject;
-    [SerializeField] private Transform _spawnStartPoint;
-    //private int _amountToSpawn;
     private bool _spawnTrue = true;
-
     [SerializeField] private List<GameObject> _pooledObjects;
     private static SpawnManager _instance;
     public static SpawnManager Instance
@@ -46,7 +42,6 @@ public class SpawnManager : MonoBehaviour
         return _pooledObjects;
     }
 
-
     private GameObject RequestSpawn()
     {
         foreach (var spawn in _pooledObjects)
@@ -57,7 +52,6 @@ public class SpawnManager : MonoBehaviour
                 return spawn;
             }
         }
-
         GameObject newSpawn = Instantiate(_spawnObject);
         _pooledObjects.Add(newSpawn);
         return newSpawn;
@@ -79,11 +73,7 @@ public class SpawnManager : MonoBehaviour
     {
         Debug.Log("Spawn is called");
         GameObject spawn = RequestSpawn();
-       // Instantiate(_spawnObject, _spawnStartPoint.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(5);
         _spawnTrue = true;
     }
 }
-//setup max 10
-//if 10 than recycle 
-//
