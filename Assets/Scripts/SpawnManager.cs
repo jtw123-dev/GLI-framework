@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _spawnObject;
     private bool _spawnTrue = true;
+    [SerializeField] private GameObject _spawnContainer;
     [SerializeField] private List<GameObject> _pooledObjects;
     private static SpawnManager _instance;
     public static SpawnManager Instance
@@ -36,6 +37,7 @@ public class SpawnManager : MonoBehaviour
         for (int i =0;i<amountToSpawn;i++)
         {
             GameObject spawn = Instantiate(_spawnObject);
+            spawn.transform.parent = _spawnContainer.transform;
             _pooledObjects.Add(spawn);
             spawn.SetActive(false);
         }

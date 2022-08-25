@@ -44,6 +44,8 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         private Camera _fpsCamera;
 
         private AI _ai;
+        private GameObject[] _enemies;
+        [SerializeField]private int _score;
 
 
         private void Start()
@@ -52,19 +54,40 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             _fpsCamera = GetComponentInChildren<Camera>();
             _initialCameraPos = _fpsCamera.transform.localPosition;
             Cursor.lockState = CursorLockMode.Locked;
-            _ai = GameObject.Find("Monster_93").GetComponent<AI>();
+           
         }
 
         private void Update()
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hitInfo;
+
+                Vector3 center = new Vector3(0.5f, 0.5f, 0);
+
+                Ray rayOrigin = Camera.main.ViewportPointToRay(center);
+                Debug.DrawRay(rayOrigin.origin, transform.forward * 10);
+
+
+
+                if (Physics.Raycast(rayOrigin,out hitInfo,Mathf.Infinity,1<<6|1<<7))
+                {
+                    if (hitInfo.collider.tag == "Enemy")
+                    {
+                        hitInfo.collider.GetComponent<AI>().Death();
+                        _score += 50;
+                     
+                      
+                    }
+                    else if (hitInfo.collider.tag=="Barrier")
+                    {
+                        Debug.Log(hitInfo.collider.name);
+                    }
+                }
+            }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Cursor.lockState = CursorLockMode.None;
-            }
-
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                _ai.Death();
             }
 
             FPSController();
