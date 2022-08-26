@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
 {
@@ -46,6 +47,7 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         private AI _ai;
         private GameObject[] _enemies;
         [SerializeField]private int _score;
+        private int _enemyCount = 10;
 
 
         private void Start()
@@ -76,7 +78,9 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
                     {
                         hitInfo.collider.GetComponent<AI>().Death();
                         _score += 50;
-                     
+                        UIManager.Instance.ScoreUpdate(_score);
+                        _enemyCount--;
+                        UIManager.Instance.EnemyUpdate(_enemyCount);
                       
                     }
                     else if (hitInfo.collider.tag=="Barrier")
