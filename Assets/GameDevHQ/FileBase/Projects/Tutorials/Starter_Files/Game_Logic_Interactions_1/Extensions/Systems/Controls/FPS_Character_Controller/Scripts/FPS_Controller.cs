@@ -48,6 +48,8 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         private GameObject[] _enemies;
         [SerializeField]private int _score;
         private int _enemyCount = 10;
+        private  AudioSource _source;
+        private AudioSource _gunShot, Death,  hitBarrier;
 
 
         private void Start()
@@ -56,6 +58,10 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             _fpsCamera = GetComponentInChildren<Camera>();
             _initialCameraPos = _fpsCamera.transform.localPosition;
             Cursor.lockState = CursorLockMode.Locked;
+            //_source = GameObject.Find("AudioManager").GetComponent<AudioSource>();
+            _gunShot = GameObject.Find("GunShotAudio").GetComponent<AudioSource>();
+            Death = GameObject.Find("Death").GetComponent<AudioSource>();
+            hitBarrier = GameObject.Find("BarrierHit").GetComponent<AudioSource>();
            
         }
 
@@ -63,14 +69,13 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         {
             if (Input.GetMouseButtonDown(0))
             {
+                _gunShot.Play();
                 RaycastHit hitInfo;
 
                 Vector3 center = new Vector3(0.5f, 0.5f, 0);
 
                 Ray rayOrigin = Camera.main.ViewportPointToRay(center);
                 Debug.DrawRay(rayOrigin.origin, transform.forward * 10);
-
-
 
                 if (Physics.Raycast(rayOrigin,out hitInfo,Mathf.Infinity,1<<6|1<<7))
                 {
@@ -81,11 +86,13 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
                         UIManager.Instance.ScoreUpdate(_score);
                         _enemyCount--;
                         UIManager.Instance.EnemyUpdate(_enemyCount);
+                        Death.Play();
                       
                     }
                     else if (hitInfo.collider.tag=="Barrier")
                     {
                         Debug.Log(hitInfo.collider.name);
+                        hitBarrier.Play();
                     }
                 }
             }

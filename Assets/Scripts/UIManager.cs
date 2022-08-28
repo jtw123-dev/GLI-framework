@@ -7,8 +7,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _score;
     [SerializeField] private Text _enemy;
     [SerializeField] private Text _timeRemaining;
-    private static UIManager  _instance;
     private float _time = 60;
+    private static UIManager  _instance;
+   
     public static UIManager Instance
     {
         get
@@ -24,10 +25,6 @@ public class UIManager : MonoBehaviour
         _instance = this;
     }
 
-    private void Start()
-    {
-       
-    }
     private void Update()
     {
         if (_time>0)

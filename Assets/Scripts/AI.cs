@@ -23,6 +23,7 @@ public class AI : MonoBehaviour
     [SerializeField]private bool _death;
     [SerializeField]private bool _cover ;
     public int score;
+    private AudioSource _win;
  
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class AI : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
          _agent.speed = _speed;
+        _win = GameObject.Find("AIWin").GetComponent<AudioSource>();
     }
 
 
@@ -100,6 +102,7 @@ public class AI : MonoBehaviour
     {
         if (other.tag=="Finish")
         {
+            _win.Play();
             Recycle();
         }
         if (other.tag=="Cover")
