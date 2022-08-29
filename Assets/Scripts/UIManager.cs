@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private  Text _score;
     [SerializeField] private Text _enemy;
     [SerializeField] private Text _timeRemaining;
+    [SerializeField] private Text _lose;
     private float _time = 60;
     private static UIManager  _instance;
     [SerializeField] private Text _winText;
@@ -37,9 +38,10 @@ public class UIManager : MonoBehaviour
         if (_enemy.text==0.ToString())
         {
             _winText.gameObject.SetActive(true);
-            noRessurect = true;
-            
+            noRessurect = true;           
         }
+
+      
     }
     public void ScoreUpdate(int playerScore)
     {
@@ -51,5 +53,8 @@ public class UIManager : MonoBehaviour
         _enemy.text = enemyAmount.ToString();
     }
 
-    
+    public void LostUpdate()
+    {
+        _lose.gameObject.SetActive(true);
+    }
 }

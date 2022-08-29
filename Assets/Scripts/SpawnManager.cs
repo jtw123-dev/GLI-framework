@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _spawnContainer;
     [SerializeField] private List<GameObject> _pooledObjects;
     private AI _ai;
+    
     public bool _resurrect =true;
     private static SpawnManager _instance;
     public static SpawnManager Instance

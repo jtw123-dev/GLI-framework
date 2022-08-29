@@ -25,6 +25,7 @@ public class AI : MonoBehaviour
     public int score;
     private AudioSource _win;
     private SpawnManager _manager;
+    private int _youLose;
  
     // Start is called before the first frame update
     void Start()
@@ -103,8 +104,15 @@ public class AI : MonoBehaviour
     {
         if (other.tag=="Finish")
         {
+            _youLose++;
             _win.Play();
             Recycle();
+
+            if (_youLose<=5)
+            {
+                UIManager.Instance.LostUpdate();
+                _manager._resurrect = false;
+            }
         }
         if (other.tag=="Cover")
         {
