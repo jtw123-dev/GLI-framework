@@ -20,15 +20,16 @@ public class AI : MonoBehaviour
     private Animator _anim;
     [SerializeField] private Transform[] _coverLocations;
     [SerializeField] private int _currentCoverLocation;
-    [SerializeField]private bool _death;
+  public  bool death;
     [SerializeField]private bool _cover ;
     public int score;
     private AudioSource _win;
+    private SpawnManager _manager;
  
     // Start is called before the first frame update
     void Start()
     {
-        
+        _manager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _currentState = AIState.Running;
      
         _agent = GetComponent<NavMeshAgent>();
@@ -130,15 +131,19 @@ public class AI : MonoBehaviour
 
     public void Death()
     {
+     gameObject.GetComponent<BoxCollider>().enabled=false;
+        
         _speed = 0;
+        death = true;
         _currentState = AIState.Death;
-        score += 50;
         StartCoroutine("WaitForDeath");
+        
     }
 
     private IEnumerator WaitForDeath()
     {
         yield return new WaitForSeconds(3);
+        gameObject.GetComponent<BoxCollider>().enabled = true;
         Recycle();
     }
 }

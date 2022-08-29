@@ -8,6 +8,8 @@ public class SpawnManager : MonoBehaviour
     private bool _spawnTrue = true;
     [SerializeField] private GameObject _spawnContainer;
     [SerializeField] private List<GameObject> _pooledObjects;
+    private AI _ai;
+    public bool _resurrect =true;
     private static SpawnManager _instance;
     public static SpawnManager Instance
     {
@@ -31,6 +33,7 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         _pooledObjects = GenerateSpawn(10);
+       
     }
     private List <GameObject> GenerateSpawn(int amountToSpawn)
     {
@@ -48,15 +51,15 @@ public class SpawnManager : MonoBehaviour
     {
         foreach (var spawn in _pooledObjects)
         {
-            if (spawn.activeInHierarchy ==false)
+            if (spawn.activeInHierarchy ==false &&UIManager.Instance.noRessurect==false )
             {
                 spawn.SetActive(true);
                 return spawn;
             }
         }
         GameObject newSpawn = Instantiate(_spawnObject);
-        _pooledObjects.Add(newSpawn);
-        return newSpawn;
+         _pooledObjects.Add(newSpawn);
+         return newSpawn;
     }
     public void SpawnObject()
     {

@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Text _score;
+    [SerializeField] private  Text _score;
     [SerializeField] private Text _enemy;
     [SerializeField] private Text _timeRemaining;
     private float _time = 60;
     private static UIManager  _instance;
-   
+    [SerializeField] private Text _winText;
+    public bool noRessurect;
     public static UIManager Instance
     {
         get
@@ -32,6 +33,13 @@ public class UIManager : MonoBehaviour
             _time -= Time.deltaTime;
             _timeRemaining.text = _time.ToString();
         }
+
+        if (_enemy.text==0.ToString())
+        {
+            _winText.gameObject.SetActive(true);
+            noRessurect = true;
+            
+        }
     }
     public void ScoreUpdate(int playerScore)
     {
@@ -42,4 +50,6 @@ public class UIManager : MonoBehaviour
     {
         _enemy.text = enemyAmount.ToString();
     }
+
+    
 }
