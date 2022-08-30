@@ -77,22 +77,27 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
                 Ray rayOrigin = Camera.main.ViewportPointToRay(center);
                 Debug.DrawRay(rayOrigin.origin, transform.forward * 10);
 
-                if (Physics.Raycast(rayOrigin,out hitInfo,Mathf.Infinity,1<<6|1<<7))
+                if (Physics.Raycast(rayOrigin,out hitInfo,Mathf.Infinity,1<<6|1<<7|1<<8))
                 {
-                    if (hitInfo.collider.tag == "Enemy")
+                    if (hitInfo.collider.tag == "Barrier")
+                    {
+                        Debug.Log(hitInfo.collider.name);
+                        hitBarrier.Play();
+                        
+                    }
+
+                   else if (hitInfo.collider.tag == "Enemy")
                     {
                         hitInfo.collider.GetComponent<AI>().Death();
                         _score += 50;
                         UIManager.Instance.ScoreUpdate(_score);
                         _enemyCount--;
                         UIManager.Instance.EnemyUpdate(_enemyCount);
-                        Death.Play();
-                      
+                        Death.Play();                     
                     }
-                    else if (hitInfo.collider.tag=="Barrier")
+                   else if (hitInfo.collider.tag=="Explosive")
                     {
-                        Debug.Log(hitInfo.collider.name);
-                        hitBarrier.Play();
+                        hitInfo.collider.GetComponent<Explosive>().Explode();
                     }
                 }
             }

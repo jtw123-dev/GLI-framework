@@ -21,7 +21,7 @@ public class AI : MonoBehaviour
     [SerializeField] private Transform[] _coverLocations;
     [SerializeField] private int _currentCoverLocation;
   public  bool death;
-    [SerializeField]private bool _cover ;
+    [SerializeField]public bool _cover ;
     public int score;
     private AudioSource _win;
     private SpawnManager _manager;
@@ -57,6 +57,7 @@ public class AI : MonoBehaviour
             case AIState.Running:
                 _agent.isStopped = false;
                 _anim.SetFloat( "Speed",_speed);
+
                 CalculateMovement();
                 break;
 
@@ -117,7 +118,12 @@ public class AI : MonoBehaviour
         if (other.tag=="Cover")
         {
             _cover = true;
+            //gameObject.GetComponent<BoxCollider>().enabled = false;
             _currentState = AIState.CoverIdle;
+        }
+        if (other.tag=="Explosive")
+        {
+            Death();
         }
     }
 
@@ -126,6 +132,7 @@ public class AI : MonoBehaviour
         if (other.tag=="Cover")
         {
             _cover = false;
+           
         }
     }
 
@@ -139,13 +146,22 @@ public class AI : MonoBehaviour
 
     public void Death()
     {
-     gameObject.GetComponent<BoxCollider>().enabled=false;
-        
-        _speed = 0;
-        death = true;
-        _currentState = AIState.Death;
-        StartCoroutine("WaitForDeath");
-        
+        if (_cover==true)
+        {
+            return;
+        }
+        else
+        {
+            gameObject.GetComponent<BoxCollider>().enabled = false;
+
+            _speed = 0;
+            death = true;
+            _currentState = AIState.Death;
+            StartCoroutine("WaitForDeath");
+
+        }
+
+
     }
 
     private IEnumerator WaitForDeath()
