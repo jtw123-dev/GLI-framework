@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Barrier
   - Explosive
+  - Column
   layers:
   - Default
   - TransparentFX

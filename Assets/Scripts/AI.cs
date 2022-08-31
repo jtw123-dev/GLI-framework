@@ -22,10 +22,12 @@ public class AI : MonoBehaviour
     [SerializeField] private int _currentCoverLocation;
   public  bool death;
     [SerializeField]public bool _cover ;
-    public int score;
+    public int _score;
     private AudioSource _win;
     private SpawnManager _manager;
     private int _youLose;
+    private int _enemyCount = 10;
+    
  
     // Start is called before the first frame update
     void Start()
@@ -85,7 +87,9 @@ public class AI : MonoBehaviour
     private IEnumerator CoverWait()
     {
         _agent.isStopped = true;
+        this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         yield return new WaitForSeconds(Random.Range(3,5));
+        this.gameObject.layer = LayerMask.NameToLayer("Enemy");
         _currentState = AIState.Running;
 
         if (_currentCoverLocation == _coverLocations.Length-1)
@@ -118,6 +122,7 @@ public class AI : MonoBehaviour
         if (other.tag=="Cover")
         {
             _cover = true;
+
             //gameObject.GetComponent<BoxCollider>().enabled = false;
             _currentState = AIState.CoverIdle;
         }
@@ -145,21 +150,14 @@ public class AI : MonoBehaviour
     }
 
     public void Death()
-    {
-        if (_cover==true)
-        {
-            return;
-        }
-        else
-        {
+    {  
             gameObject.GetComponent<BoxCollider>().enabled = false;
-
             _speed = 0;
-            death = true;
+        death = true;
             _currentState = AIState.Death;
             StartCoroutine("WaitForDeath");
 
-        }
+        
 
 
     }

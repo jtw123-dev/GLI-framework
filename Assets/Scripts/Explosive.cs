@@ -5,18 +5,9 @@ using UnityEngine;
 public class Explosive : MonoBehaviour
 {
     [SerializeField] private GameObject _explodingPrefab;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    public bool _isDead=true;
+    public int howMany;
+    private int _addEnemy;
     public void Explode()
     {
           var explodingCopy =  Instantiate(_explodingPrefab, transform.position, Quaternion.identity);
@@ -24,4 +15,21 @@ public class Explosive : MonoBehaviour
         this.gameObject.GetComponent<BoxCollider>().size = new Vector3(10,0.5f,5);
         Destroy(this.gameObject,1.5f);
     }
+
+    private IEnumerator OnTriggerEnter(Collider other)
+    {
+        if (other.tag=="Enemy")
+        {
+            _addEnemy++;
+            yield return new WaitForSeconds(1);
+            EnemyTotal();
+            Debug.Log(howMany);
+            Debug.Log(_isDead);
+        }
+    }
+    public void EnemyTotal()
+    {
+        howMany = _addEnemy;
+    }
+
 }

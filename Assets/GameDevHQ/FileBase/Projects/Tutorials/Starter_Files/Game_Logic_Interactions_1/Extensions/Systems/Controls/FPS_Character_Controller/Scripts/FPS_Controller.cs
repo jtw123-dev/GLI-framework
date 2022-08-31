@@ -88,6 +88,10 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
 
                    else if (hitInfo.collider.tag == "Enemy")
                     {
+                        if (hitInfo.collider.tag=="Column")
+                        {
+                            return;
+                        }
                         hitInfo.collider.GetComponent<AI>().Death();
                         _score += 50;
                         UIManager.Instance.ScoreUpdate(_score);
@@ -98,6 +102,12 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
                    else if (hitInfo.collider.tag=="Explosive")
                     {
                         hitInfo.collider.GetComponent<Explosive>().Explode();
+                        StartCoroutine("WaitForExplosion");   
+                        _score += 50 *hitInfo.collider.GetComponent<Explosive>().howMany;
+                        Debug.Log(hitInfo.collider.GetComponent<Explosive>().howMany);
+                            UIManager.Instance.ScoreUpdate(_score);
+                            _enemyCount=_enemyCount- hitInfo.collider.GetComponent<Explosive>().howMany; ;
+                            UIManager.Instance.EnemyUpdate(_enemyCount); 
                     }
                 }
             }
@@ -110,7 +120,11 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             CameraController();
             HeadBobbing(); 
         }
-
+        private IEnumerator WaitForExplosion()
+        {
+            yield return new WaitForSeconds(3);
+            Debug.Log("Waited");
+        }
         void FPSController()
         {
             float h = Input.GetAxis("Horizontal"); //horizontal inputs (a, d, leftarrow, rightarrow)
